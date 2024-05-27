@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Тепловая карта</title>
+  <meta charset="utf-8" />
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=53c2ffd6-c16b-4521-b81b-e025db0b7a10&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+  <div id="map" style="width: 100%; height: 100vh;"></div>
+  <script>
+    ymaps.ready(init);
+
+    function init() {
+      var myMap = new ymaps.Map('map', {
+        center: [55.75, 37.62],
+        zoom: 10
+      });
+
+      ymaps.ready(function () {
+        ymaps.modules.require(['heatMap.Heatmap'], function (Heatmap) {
+          fetch("http://localhost:5000/api/moskva")
+            .then(response => response.json())
+            .then(data => {
+              var heatmapData = data.features.map(Feature => {
+                return [Feature.geometry.coordinates[1], Feature.geometry.coordinates[0]]; 
+              });
+
+              var heatmap = new Heatmap(myMap, {
+                data: heatmapData,
+                radius: 30,
+                gradient: {
+                  0.2: 'rgba(0, 255, 0, 1)',
+                  0.6: 'rgba(255, 255, 0, 1)',
+                  1: 'rgba(255, 0, 0, 1)'
+                }
+              });
+
+            heatmap.setMap(myMap)
+            })
+        });
+      });
+    }
+  </script>
+</body>
+</html>
