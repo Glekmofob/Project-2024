@@ -7,7 +7,7 @@ app.use(cors());
 
 // Обработка запроса к GeoJSON
 app.get('/api/moskva', (req, res) => {
-  fs.readFile('nenetskii-avtonomnyi-okrug.geojson', 'utf8', (err, data) => {
+  fs.readFile('moskva.geojson', 'utf8', (err, data) => {
     if (err) {
       console.error('Ошибка чтения файла:', err);
       res.status(500).send('Ошибка сервера');
