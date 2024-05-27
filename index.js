@@ -1,11 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs'); // Для чтения файла
+const fs = require('fs'); 
 
 const app = express();
 app.use(cors());  
 
-// Обработка запроса к GeoJSON
 app.get('/api/moskva', (req, res) => {
   fs.readFile('moskva.geojson', 'utf8', (err, data) => {
     if (err) {
